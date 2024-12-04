@@ -3,7 +3,7 @@ package com.botrista.countertopbot.remote.register
 
 import com.google.gson.annotations.SerializedName
 
-data class RegisterInfo(
+data class RegisterResponse(
     @SerializedName("code")
     val code: Int,
     @SerializedName("data")

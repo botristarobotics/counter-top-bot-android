@@ -6,5 +6,5 @@ import retrofit2.http.POST
 
 interface RegisterApiService {
     @POST("/machine/register")
-    suspend fun register(@Body registerRequest: RegisterRequest): Response<RegisterInfo>
+    suspend fun register(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
 }
