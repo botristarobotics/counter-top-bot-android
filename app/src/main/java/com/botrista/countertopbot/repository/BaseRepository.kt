@@ -1,22 +1,31 @@
 package com.botrista.countertopbot.repository
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import com.botrista.countertopbot.repository.exception.ForbiddenException
 import retrofit2.Response
+import java.net.HttpURLConnection
 
 open class BaseRepository {
 
-    protected fun <T> handleApiResponse(apiCall: suspend () -> Response<T>): Flow<Result<T>> =
-        flow {
-            try {
-                val response = apiCall()
-                if (response.isSuccessful) {
-                    emit(Result.success(response.body()!!))
+    protected suspend fun <I, T> handleApiResponse(
+        apiCall: suspend () -> Response<I>,
+        mapper: (I) -> T
+    ): Result<T> {
+        return try {
+            val response = apiCall()
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    Result.success(mapper(body))
                 } else {
-                    emit(Result.failure(Exception("Error: ${response.errorBody()?.string()}")))
+                    Result.failure(Exception("Empty response body"))
                 }
-            } catch (e: Exception) {
-                emit(Result.failure(e))
+            } else if (response.code() == HttpURLConnection.HTTP_FORBIDDEN) {
+                Result.failure(ForbiddenException())
+            } else {//TODO: Handle other error codes
+                Result.failure(Exception("Error: ${response.code()}"))
             }
+        } catch (e: Exception) {
+            Result.failure(e)
         }
+    }
 }

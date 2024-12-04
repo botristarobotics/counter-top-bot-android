@@ -3,7 +3,7 @@ package com.botrista.countertopbot.remote.login
 
 import com.google.gson.annotations.SerializedName
 
-data class LoginInfo(
+data class LoginResponse(
     @SerializedName("code")
     val code: Int,
     @SerializedName("data")
