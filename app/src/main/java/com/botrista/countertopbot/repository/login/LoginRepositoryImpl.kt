@@ -1,6 +1,6 @@
 package com.botrista.countertopbot.repository.login
 
-import android.content.SharedPreferences
+import com.botrista.countertopbot.local.LocalStorage
 import com.botrista.countertopbot.remote.login.LoginApiService
 import com.botrista.countertopbot.remote.login.LoginRequest
 import com.botrista.countertopbot.repository.BaseRepository
@@ -8,7 +8,7 @@ import com.botrista.countertopbot.ui.model.LoginModel
 
 class LoginRepositoryImpl(
     private val loginApiService: LoginApiService,
-    private val sharedPreferences: SharedPreferences
+    private val localStorage: LocalStorage,
 ) : BaseRepository(), LoginRepository {
 
     override suspend fun login(
@@ -33,23 +33,14 @@ class LoginRepositoryImpl(
                     tokenType = loginResponse.data.tokenType,
                     accessExpiresIn = loginResponse.data.accessExpiresIn
                 )
-                saveAccessToken(loginModel.accessToken)
-                saveRefreshToken(loginModel.refreshToken)
+                localStorage.saveAccessToken(loginModel.accessToken)
+                localStorage.saveRefreshToken(loginModel.refreshToken)
                 loginModel
             }
         )
     }
 
-    private fun saveAccessToken(token: String) {
-        //TODO:Use constant for key
-        sharedPreferences.edit().putString("access_token", token).apply()
-    }
-
-    private fun saveRefreshToken(token: String) {
-        sharedPreferences.edit().putString("refresh_token", token).apply()
-    }
-
     override fun getAccessToken(): String? {
-        return sharedPreferences.getString("access_token", null)
+        return localStorage.getAccessToken()
     }
 }
