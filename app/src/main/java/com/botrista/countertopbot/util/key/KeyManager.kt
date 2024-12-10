@@ -13,7 +13,7 @@ interface KeyManager<PublicKey, PrivateKey> {
         const val PRIVATE_KEY_FILE = "db_private.pem"
         const val DIRECTORY_NAME = "keys"
         const val PUBLIC_PEM_TYPE = "PUBLIC KEY"
-        const val PRIVATE_PEM_TYPE = "EC PRIVATE KEY"
+        const val PRIVATE_PEM_TYPE = "PRIVATE KEY"
     }
 
     val keysDir: File
