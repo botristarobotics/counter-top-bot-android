@@ -1,15 +1,20 @@
 package com.botrista.countertopbot.di
 
 import android.content.Context
+import com.botrista.countertopbot.MainViewModel
 import com.botrista.countertopbot.local.LocalStorage
 import com.botrista.countertopbot.local.SharedPreferencesLocalStorage
+import com.botrista.countertopbot.remote.hotpot.HotpotApiService
 import com.botrista.countertopbot.remote.login.LoginApiService
 import com.botrista.countertopbot.remote.register.RegisterApiService
+import com.botrista.countertopbot.repository.hotpot.HotpotRepository
+import com.botrista.countertopbot.repository.hotpot.HotpotRepositoryImpl
 import com.botrista.countertopbot.repository.login.LoginRepository
 import com.botrista.countertopbot.repository.login.LoginRepositoryImpl
 import com.botrista.countertopbot.repository.register.RegisterRepository
 import com.botrista.countertopbot.repository.register.RegisterRepositoryImpl
 import com.botrista.countertopbot.ui.notifications.NotificationsViewModel
+import com.botrista.countertopbot.usecase.HotpotUseCase
 import com.botrista.countertopbot.usecase.LoginUseCase
 import com.botrista.countertopbot.util.Const
 import com.botrista.countertopbot.util.key.KeyManager
@@ -27,8 +32,17 @@ import java.security.PrivateKey
 import java.security.PublicKey
 
 val appModule = module {
-    single(named(Const.NAMED_LOGIN_API_SERVICE)) { get<Retrofit>().create(LoginApiService::class.java) }
-    single(named(Const.NAMED_REGISTER_API_SERVICE)) { get<Retrofit>().create(RegisterApiService::class.java) }
+    single(named(Const.NAMED_LOGIN_API_SERVICE)) {
+        get<Retrofit>().create(
+            LoginApiService::class.java
+        )
+    }
+    single(named(Const.NAMED_REGISTER_API_SERVICE)) {
+        get<Retrofit>().create(
+            RegisterApiService::class.java
+        )
+    }
+
 
     single {
         LoginRepositoryImpl(
@@ -49,5 +63,21 @@ val appModule = module {
     }
 
     factoryOf(::LoginUseCase)
+
+    //Hotpot
+    factory(named(Const.NAMED_HOTPOT_API_SERVICE)) {
+        get<Retrofit>().create(
+            HotpotApiService::class.java
+        )
+    }
+    single {
+        HotpotRepositoryImpl(
+            get(named(Const.NAMED_HOTPOT_API_SERVICE)),
+        )
+    } bind HotpotRepository::class
+    factoryOf(::HotpotUseCase)
+
+
     viewModelOf(::NotificationsViewModel)
+    viewModelOf(::MainViewModel)
 }

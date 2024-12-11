@@ -1,8 +1,5 @@
-package com.botrista.countertopbot.ui.notifications
+package com.botrista.countertopbot
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.botrista.countertopbot.usecase.HotpotUseCase
@@ -10,23 +7,16 @@ import com.botrista.countertopbot.usecase.LoginUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class NotificationsViewModel(
+class MainViewModel(
     private val loginUseCase: LoginUseCase,
     private val hotpotUseCase: HotpotUseCase
 ) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
-    }
-    val text: LiveData<String> = _text
-
-    @ExperimentalStdlibApi
-    fun testLogin() {
+    fun login() {
         viewModelScope.launch(Dispatchers.IO) {
             val result = loginUseCase.execute("db0xfantasy001")
-
             val hotpot = hotpotUseCase.execute()
-            Log.d("Fan", "Hotpot result: $hotpot")
         }
     }
+
 }

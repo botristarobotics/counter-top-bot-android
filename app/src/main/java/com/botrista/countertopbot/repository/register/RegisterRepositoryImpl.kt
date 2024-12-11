@@ -23,7 +23,7 @@ class RegisterRepositoryImpl(private val registerApiService: RegisterApiService)
                     )
                 )
             },
-            mapper = {
+            mapper = { //TODO: map to RegisterModel
                 RegisterModel()
             }
         )

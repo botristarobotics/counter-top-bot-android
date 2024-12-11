@@ -8,17 +8,17 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val networkModule = module {
-    single {
-        val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(getLogInterceptor())
-            .build()
+    single { provideOkHttpClientWithoutToken() }
+    single { provideRetrofit(get()) }
+}
 
-        Retrofit.Builder()
-            .baseUrl(Const.HOST_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
+fun provideOkHttpClientWithoutToken(): OkHttpClient {
+    return OkHttpClient.Builder().addInterceptor(getLogInterceptor()).build()
+}
+
+fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    return Retrofit.Builder().baseUrl(Const.HOST_URL).client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create()).build()
 }
 
 private fun getLogInterceptor(): HttpLoggingInterceptor {
