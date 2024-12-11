@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.chaquo.python)
 }
 
 android {
@@ -13,6 +14,10 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        ndk {
+            abiFilters += listOf("arm64-v8a", "x86_64")
+        }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -35,6 +40,16 @@ android {
     }
     buildFeatures {
         viewBinding = true
+    }
+}
+
+chaquopy {
+    version = "3.9"
+    defaultConfig {
+        pip {
+            install("numpy")
+            install("Pygments==2.13.0")  // Also used in Java API demo
+        }
     }
 }
 
