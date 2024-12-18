@@ -1,0 +1,4 @@
+[submodule "app/src/main/python/drinkbot-firmware-interface"]
+	path = app/src/main/python/drinkbot-firmware-interface
+	url = https://github.com/botristarobotics/drinkbot-firmware-interface.git
+    branch = refactor
