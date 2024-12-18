@@ -36,15 +36,24 @@ class NotificationsFragment : Fragment() {
     @ExperimentalStdlibApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        testLogin()
-        testPythonLibrary()
+//        testLogin()
+//        testPythonLibrary()
+        testFirmwareLibrary()
+    }
+
+    private fun testFirmwareLibrary() {
+        val py = Python.getInstance()
+        val pyModule: PyObject =
+            py.getModule("drinkbot-firmware-interface.agei_firmware.firmware")//agei_firmware.
+        val pyModuleZ = py.getModule("zmq")
+        Log.d("Fan", "Python pyModule: $pyModule")
+        Log.d("Fan", "Python pyModuleZ: $pyModuleZ")
     }
 
     private fun testPythonLibrary() {
         val py = Python.getInstance()
         val pyModule: PyObject = py.getModule("my_module")
         val addResult: Int = pyModule.callAttr("add_numbers", 5, 3).toInt()
-
         Log.d("Fan", "Python add result: $addResult")
     }
 

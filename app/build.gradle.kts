@@ -16,7 +16,7 @@ android {
         versionName = "1.0"
 
         ndk {
-            abiFilters += listOf("arm64-v8a", "x86_64")
+            abiFilters += listOf("arm64-v8a")
         }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -41,14 +41,30 @@ android {
     buildFeatures {
         viewBinding = true
     }
+//    sourceSets{
+//        val utilsSrc = ".${project.projectDir}/src/main/python/drinkbot-firmware-interface"
+//        getByName("main"){
+//            kotlin.srcDir("src/main/python/drinkbot-firmware-interface")
+//        }
+//    }
+
 }
 
 chaquopy {
-    version = "3.9"
+
     defaultConfig {
+        version = "3.11"
         pip {
-            install("numpy")
-            install("Pygments==2.13.0")  // Also used in Java API demo
+            install("black==23.10.1")
+            install("isort==5.12.0")
+            install("pre-commit==3.5.0")
+            install("pymodbus==3.5.4")
+            install("pyserial==3.5")
+            install("pytest==8.1.1")
+            install("pytest-cov==5.0.0")
+
+            install("pyzmq==25.1.1")
+            options("--find-links", "${project.projectDir}/src/main/python/libs/pyzmq")
         }
     }
 }
