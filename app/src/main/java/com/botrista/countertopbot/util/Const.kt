@@ -12,4 +12,6 @@ object Const {
     const val PREFERENCE_NAME = "prefs"
     const val PREFERENCE_KEY_ACCESS_TOKEN = "access_token"
     const val PREFERENCE_KEY_REFRESH_TOKEN = "refresh_token"
+
+    const val SIM_ZMQ_ADDRESS = "tcp://127.0.0.1:6011"
 }

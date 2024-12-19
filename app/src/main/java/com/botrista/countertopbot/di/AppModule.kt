@@ -7,6 +7,8 @@ import com.botrista.countertopbot.local.SharedPreferencesLocalStorage
 import com.botrista.countertopbot.remote.hotpot.HotpotApiService
 import com.botrista.countertopbot.remote.login.LoginApiService
 import com.botrista.countertopbot.remote.register.RegisterApiService
+import com.botrista.countertopbot.repository.agei.DeviceRepository
+import com.botrista.countertopbot.repository.agei.DeviceRepositoryImpl
 import com.botrista.countertopbot.repository.hotpot.HotpotRepository
 import com.botrista.countertopbot.repository.hotpot.HotpotRepositoryImpl
 import com.botrista.countertopbot.repository.login.LoginRepository
@@ -14,6 +16,7 @@ import com.botrista.countertopbot.repository.login.LoginRepositoryImpl
 import com.botrista.countertopbot.repository.register.RegisterRepository
 import com.botrista.countertopbot.repository.register.RegisterRepositoryImpl
 import com.botrista.countertopbot.ui.notifications.NotificationsViewModel
+import com.botrista.countertopbot.usecase.ConnectUseCase
 import com.botrista.countertopbot.usecase.HotpotUseCase
 import com.botrista.countertopbot.usecase.LoginUseCase
 import com.botrista.countertopbot.util.Const
@@ -77,6 +80,11 @@ val appModule = module {
     } bind HotpotRepository::class
     factoryOf(::HotpotUseCase)
 
+    //Connect
+    single {
+        DeviceRepositoryImpl()
+    } bind DeviceRepository::class
+    factoryOf(::ConnectUseCase)
 
     viewModelOf(::NotificationsViewModel)
     viewModelOf(::MainViewModel)

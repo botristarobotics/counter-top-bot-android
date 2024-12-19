@@ -1,14 +1,11 @@
 package com.botrista.countertopbot.ui.notifications
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.botrista.countertopbot.databinding.FragmentNotificationsBinding
-import com.chaquo.python.PyObject
-import com.chaquo.python.Python
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -38,23 +35,7 @@ class NotificationsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 //        testLogin()
 //        testPythonLibrary()
-        testFirmwareLibrary()
-    }
-
-    private fun testFirmwareLibrary() {
-        val py = Python.getInstance()
-        val pyModule: PyObject =
-            py.getModule("drinkbot-firmware-interface.agei_firmware.firmware")//agei_firmware.
-        val pyModuleZ = py.getModule("zmq")
-        Log.d("Fan", "Python pyModule: $pyModule")
-        Log.d("Fan", "Python pyModuleZ: $pyModuleZ")
-    }
-
-    private fun testPythonLibrary() {
-        val py = Python.getInstance()
-        val pyModule: PyObject = py.getModule("my_module")
-        val addResult: Int = pyModule.callAttr("add_numbers", 5, 3).toInt()
-        Log.d("Fan", "Python add result: $addResult")
+        notificationsViewModel.testConnectUseCase()
     }
 
     @ExperimentalStdlibApi
