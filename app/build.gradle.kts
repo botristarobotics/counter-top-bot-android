@@ -16,7 +16,7 @@ android {
         versionName = "1.0"
 
         ndk {
-            abiFilters += listOf("arm64-v8a")
+            abiFilters += listOf("arm64-v8a", "x86_64")
         }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -41,13 +41,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-//    sourceSets{
-//        val utilsSrc = ".${project.projectDir}/src/main/python/drinkbot-firmware-interface"
-//        getByName("main"){
-//            kotlin.srcDir("src/main/python/drinkbot-firmware-interface")
-//        }
-//    }
-
 }
 
 chaquopy {
